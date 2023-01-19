@@ -1,0 +1,43 @@
+{
+  "name": "k-test-api",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "local": "shx rm -rf local && tsc && copyfiles -u 1 ./src/**/*.sql ./local/dist && copyfiles -u 1 ./src/**/*.json ./local/dist && copyfiles -u 1 ./src/**/*.txt ./local/dist",
+    "rmsrc": "rm -rf src",
+    "rmdist": "shx rm -rf dist"
+  },
+  "dependencies": {
+    "@types/app-module-path": "^2.2.0",
+    "@types/cors": "^2.8.8",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.17.8",
+    "@types/jsonwebtoken": "^8.5.0",
+    "app-module-path": "^2.2.0",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
+    "copyfiles": "^2.4.0",
+    "cors": "^2.8.5",
+    "dateformat": "^4.5.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "fs": "0.0.1-security",
+    "json2csv": "^5.0.6",
+    "json2xls": "^0.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "password-hash-and-salt": "^0.1.4",
+    "path": "^0.12.7",
+    "pg-promise": "^10.7.1",
+    "request": "^2.88.0",
+    "shelljs": "^0.8.4",
+    "temp": "^0.9.4"
+  },
+  "devDependencies": {
+    "shx": "^0.3.3",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
+  }
+}
