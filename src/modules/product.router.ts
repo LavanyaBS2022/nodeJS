@@ -17,7 +17,7 @@ class productRouterClass {
         this.router.get("/", (req, res, next) => { httpUtility.action(req, res, next, productController.getProducts) });
         this.router.post("/", (req, res, next) => { httpUtility.action(req, res, next, productController.addProduct) });
         this.router.put("/:id", (req, res, next) => { httpUtility.action(req, res, next, productController.updateProduct) });
-        this.router.delete("/:id", (req, res, next) => { httpUtility.action(req, res, next, productController.deleteProduct) });        
+        // this.router.delete("/:id", (req, res, next) => { httpUtility.action(req, res, next, productController.deleteProduct) });        
     }   
 }
 
