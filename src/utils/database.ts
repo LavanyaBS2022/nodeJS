@@ -1,3 +1,5 @@
+import { QueryFile } from "pg-promise";
+
 const Promise = require('bluebird');
 const initOptions = {
     error: function (error, e) {
@@ -33,22 +35,24 @@ class dbUtilityClass {
         const db = pgp(dbConnection);
         return db;
     }
-
     insertSql(row, configSQL) {
 
         const column = Object.keys(row);
-        const query=pgp.helpers.insert(row, column, configSQL.table) + 'returning id;';
-        return query;
-
-    }
-    insertManySql(rows, configSQL) {
-
-        const column = Object.keys(rows[0]);
-        const query=pgp.helpers.insert(rows, column, configSQL.table) ;
+        const query = pgp.helpers.insert(row, column, configSQL.table) + 'returning id;';
         return query;
 
     }
 
+    updateSQL(row, configSQL, id) {
+        const column = Object.keys(row);
+        const query = pgp.helpers.update(row, column, configSQL.table) + ` where id=${id} returning id;`;
+        return query;
+    }
+
+    getSQL(filePath) {
+        let query = new QueryFile(filePath, { minify: true });
+        return query;
+    }
 }
 export const dbUtility = new dbUtilityClass();
 export const db = new dbUtilityClass().connect();

@@ -1,3 +1,4 @@
+var jwt = require('jsonwebtoken');
 
 
 class securityUtilityClass {
@@ -19,7 +20,9 @@ class securityUtilityClass {
             next();
         }
     }
-
+    public generateToken(username) {
+        const token = jwt.sign({ username: username }, process.env.API_JWT_SECRET);
+    }
 
     public validateToken(req, res, next): void {
         next();
