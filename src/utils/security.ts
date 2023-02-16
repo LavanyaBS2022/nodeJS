@@ -1,3 +1,5 @@
+import { httpUtility } from "./http";
+
 var jwt = require('jsonwebtoken');
 
 
@@ -22,12 +24,45 @@ class securityUtilityClass {
     }
     public generateToken(username) {
         const token = jwt.sign({ username: username }, process.env.API_JWT_SECRET);
+        return token;
     }
 
     public validateToken(req, res, next): void {
-        next();
-        return;
 
+        if (req.url.includes('/login')) {
+            next();
+            return;
+        }
+        if (req.url.includes('/sign-up')) {
+            next();
+            return;
+        }
+
+        let httpStack = {
+            req: req, res: res, next: next, message: "", statusCode: 200,
+        };
+
+        let token = req.header('Authorization')
+
+        if (token) {
+            token = token.slice(7, token.length);
+
+            jwt.verify(token, process.env.API_JWT_SECRET, function (err, decoded) {
+                if (err) {
+                    let response = { message: "Authorization token - Invalid" };
+                    httpStack.statusCode = 401;
+                    httpUtility.sendError(httpStack, response);
+                } else {
+                    next();
+                    return;
+                }
+            });
+
+        } else {
+            let response = { message: "Authorization token - Not found" };
+            httpStack.statusCode = 401;
+            httpUtility.sendError(httpStack, response);
+        }
     }
 }
 

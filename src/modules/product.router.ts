@@ -31,6 +31,7 @@ class productRouterClass {
         this.router.put("/:id",this.upload.single('image'), (req, res, next) => { httpUtility.action(req, res, next, productController.updateProduct) });
         this.router.delete("/:id", (req, res, next) => { httpUtility.action(req, res, next, productController.deleteProduct) });
         this.router.post("/login", (req, res, next) => { httpUtility.action(req, res, next, productController.customerLogin) });
+        this.router.post("/sign-up", (req, res, next) => { httpUtility.action(req, res, next, productController.addCustomer) });
     }
 }
 

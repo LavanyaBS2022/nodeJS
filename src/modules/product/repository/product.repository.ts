@@ -40,8 +40,6 @@ class productRepositoryClass {
 
       requestJSON.configSQL.table = 'product';
       let dbSQL = ProductSQL.getProducts;
-      requestJSON.configSQL.brand_name = requestJSON.params.brand_name;
-      requestJSON.configSQL.name = requestJSON.params.name;
 
       db.any(dbSQL, requestJSON.configSQL).
         then((products) => {
@@ -106,6 +104,18 @@ class productRepositoryClass {
     return dbPromise;
   }
 
+  public addCustomer(requestJSON){
+    const dbPromise = new Promise((resolve,reject) => {
+        requestJSON.configSQL.table = 'customer';
+        let dbSQL = dbUtility.insertSql(requestJSON.customer,requestJSON.configSQL)
+        db.any(dbSQL, requestJSON.configSQL).then((customerId)=> {
+            resolve(customerId);
+        }).catch((error) =>{
+            reject(error);
+        })
+    })
+    return dbPromise;
+}
 
 }
 

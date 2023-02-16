@@ -12,7 +12,7 @@ class productControllerClass {
         // requestJSON.product = httpStack.req.body;
 
         requestJSON.product = JSON.parse(httpStack.req.body.payload);
-        requestJSON.product.image=`http://172.24.144.1:2022/uploads/${httpStack.req.file.originalname}`; 
+        requestJSON.product.image=`http://127.0.0.1:2022/uploads/${httpStack.req.file.originalname}`; 
 
         productRepository.addProduct(requestJSON).then((productId) => {
             httpUtility.sendSuccess(httpStack, productId);
@@ -30,7 +30,12 @@ class productControllerClass {
         // requestJSON.product = httpStack.req.body;
         
         requestJSON.product = JSON.parse(httpStack.req.body.payload);
-        requestJSON.product.image=`http://172.24.144.1:2022/uploads/${httpStack.req.file.originalname}`; 
+
+        if(!httpStack.req.body.image){
+
+            requestJSON.product.image=`http://127.0.0.1:2022/uploads/${httpStack.req.file.originalname}`; 
+            
+        }
 
         requestJSON.id = httpStack.req.params.id;
 
@@ -80,11 +85,11 @@ class productControllerClass {
 
         requestJSON.customer=httpStack.req.body;
         productRepository.customerLogin(requestJSON).then((customers:any)=>{
-            if(customers.length>0){
+            if(customers.length > 0){
                 let customer =customers[0];
                 let token= securityUtility.generateToken(customer.username)
-                httpUtility.sendSuccess(httpStack,customers);
                 customer.token=token;
+                httpUtility.sendSuccess(httpStack,customer);
             }else{
                 let response={message:'Invalid username or password'};
                 httpStack.statusCode=401;
@@ -92,6 +97,17 @@ class productControllerClass {
             }
         }).catch((error)=>{
             httpUtility.sendError(httpStack,error)
+        })
+    }
+
+    public async addCustomer(httpStack,requestJSON):Promise<any>{
+
+        requestJSON.customer=httpStack.req.body;
+        productRepository.addCustomer(requestJSON).then((customer) => {
+            httpUtility.sendSuccess(httpStack, customer);
+        }).catch((error) => {
+            httpUtility.sendError(httpStack, error)
+
         })
     }
 }

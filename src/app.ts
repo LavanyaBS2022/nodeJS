@@ -27,7 +27,7 @@ class appClass {
     this.app.use(securityUtility.validateToken);
 
     //enabled base router
-    this.app.use("/ecart/api/v1", baseRouter);
+    this.app.use("/Product_mgnt/api/v1", baseRouter);
     
   }
 }
